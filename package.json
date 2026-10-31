@@ -1,0 +1,13 @@
+{
+  "name": "toy-trace-proxy",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Companion proxy for the Toy Trace app: photo in, toy identification out, via the Thaura API.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
