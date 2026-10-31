@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Toy Trace — who is behind your child's toys?</title>
+<style>
+  :root{
+    --paper:#F4F5F1;
+    --card:#FFFFFF;
+    --ink:#21242B;
+    --ink-soft:#565B66;
+    --line:#D8DAD2;
+    --red:#B3261E;       /* boycott call */
+    --red-bg:#F9E9E7;
+    --amber:#8A6200;     /* weak or contested */
+    --amber-bg:#F7F0DC;
+    --green:#3E6B44;     /* nothing documented found */
+    --green-bg:#E9F0E7;
+    --blue:#28518A;      /* solidarity / advocacy note */
+    --blue-bg:#E7EDF6;
+    --serif:Georgia,"Times New Roman",serif;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto} *{transition:none!important;animation:none!important}}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--serif);
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:680px;margin:0 auto;padding:0 20px 80px}
+
+  /* ---------- header ---------- */
+  header{padding:28px 0 0}
+  .kufiya{
+    height:14px;
+    background:
+      repeating-conic-gradient(var(--ink) 0% 25%, transparent 0% 50%) 0 0/14px 14px;
+    border-top:3px solid var(--ink);
+    border-bottom:3px solid var(--ink);
+  }
+  .masthead{padding:26px 0 8px}
+  h1{
+    font-family:var(--sans);
+    font-weight:800;
+    font-size:clamp(2.2rem,7vw,3rem);
+    letter-spacing:-0.03em;
+    line-height:1.05;
+  }
+  .tagline{font-size:1.05rem;color:var(--ink-soft);margin-top:8px;max-width:52ch}
+
+  /* ---------- steps ---------- */
+  .step{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:10px;
+    margin-top:22px;
+    overflow:hidden;
+  }
+  .step-head{
+    font-family:var(--sans);
+    font-weight:700;
+    font-size:1.05rem;
+    padding:14px 18px;
+    border-bottom:1px solid var(--line);
+    display:flex;align-items:baseline;gap:10px;
+  }
+  .step-head .n{
+    font-size:.72rem;font-weight:800;letter-spacing:.12em;color:var(--ink-soft);
+    min-width:2.4em;
+  }
+  .step-body{padding:18px}
+
+  /* ---------- camera ---------- */
+  #cameraBtns{display:flex;gap:10px;flex-wrap:wrap}
+  button{
+    font-family:var(--sans);font-weight:700;font-size:.95rem;
+    padding:12px 18px;border-radius:8px;border:1.5px solid var(--ink);
+    background:var(--ink);color:#fff;cursor:pointer;
+  }
+  button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible{
+    outline:3px solid var(--blue);outline-offset:2px;
+  }
+  button.ghost{background:transparent;color:var(--ink)}
+  button.ghost:hover{background:var(--paper)}
+  button:hover{opacity:.88}
+  button:disabled{opacity:.4;cursor:default}
+  #video{display:none;width:100%;border-radius:8px;margin-top:12px;background:#111}
+  #photoPreview{display:none;width:100%;max-height:340px;object-fit:contain;border-radius:8px;margin-top:12px;background:var(--paper);border:1px solid var(--line)}
+  .cam-note{font-size:.85rem;color:var(--ink-soft);margin-top:10px;font-family:var(--sans)}
+
+  /* ---------- identify ---------- */
+  #identifyStep{display:none}
+  .hint{font-size:.92rem;color:var(--ink-soft);margin-bottom:12px;font-family:var(--sans)}
+  input[type=text]{
+    width:100%;font-family:var(--sans);font-size:1rem;
+    padding:12px 14px;border:1.5px solid var(--ink);border-radius:8px;background:#fff;
+  }
+  .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+  .chip{
+    font-family:var(--sans);font-size:.85rem;font-weight:600;
+    padding:7px 13px;border:1.5px solid var(--line);border-radius:999px;
+    background:#fff;cursor:pointer;color:var(--ink);
+  }
+  .chip:hover{border-color:var(--ink)}
+
+  /* ---------- dossier ---------- */
+  #dossier{display:none;margin-top:26px}
+  .verdict{
+    font-family:var(--sans);
+    border-radius:10px;
+    padding:18px 20px;
+    margin-bottom:14px;
+    border:1.5px solid;
+  }
+  .verdict h2{font-size:1.15rem;letter-spacing:-0.01em;line-height:1.3}
+  .verdict p{font-size:.95rem;margin-top:6px;font-family:var(--serif);line-height:1.55}
+  .v-call{background:var(--red-bg);border-color:var(--red);color:var(--red)}
+  .v-call p{color:var(--ink)}
+  .v-ties{background:var(--amber-bg);border-color:var(--amber);color:var(--amber)}
+  .v-ties p{color:var(--ink)}
+  .v-none{background:var(--green-bg);border-color:var(--green);color:var(--green)}
+  .v-none p{color:var(--ink)}
+  .v-unknown{background:var(--paper);border-color:var(--ink-soft);color:var(--ink)}
+
+  .trail{background:var(--card);border:1px solid var(--line);border-radius:10px;overflow:hidden;margin-top:14px}
+  .trail-node{padding:16px 18px;border-bottom:1px solid var(--line)}
+  .trail-node:last-child{border-bottom:none}
+  .trail-node .role{
+    font-family:var(--sans);font-size:.7rem;font-weight:800;letter-spacing:.14em;
+    color:var(--ink-soft);
+  }
+  .trail-node .who{font-family:var(--sans);font-weight:700;font-size:1.05rem;margin-top:3px}
+  .trail-node .detail{font-size:.97rem;margin-top:6px}
+  .pos-note{border-left:3px solid var(--blue);padding:8px 12px;margin-top:10px;background:var(--blue-bg);border-radius:0 6px 6px 0}
+  .pos-note .t{font-family:var(--sans);font-weight:700;color:var(--blue);font-size:.88rem}
+
+  .facts{margin-top:10px}
+  .fact{padding:10px 0;border-top:1px dashed var(--line);font-size:.95rem}
+  .fact:first-child{border-top:none}
+  .fact .when{font-family:var(--sans);font-size:.75rem;font-weight:700;color:var(--ink-soft);letter-spacing:.06em}
+  .fact a{color:var(--blue);text-decoration:underline;text-underline-offset:2px;word-break:break-all}
+  .conf{font-family:var(--sans);font-size:.72rem;font-weight:800;padding:2px 8px;border-radius:4px;margin-right:6px}
+  .conf.strong{background:var(--red-bg);color:var(--red)}
+  .conf.weak{background:var(--amber-bg);color:var(--amber)}
+
+  .unknowns{background:var(--card);border:1px dashed var(--ink-soft);border-radius:10px;padding:16px 18px;margin-top:14px;font-size:.95rem}
+  .unknowns .t{font-family:var(--sans);font-weight:700;margin-bottom:6px}
+  .unknowns ul{padding-left:20px}
+  .unknowns li{margin-top:4px}
+
+  .search-again{margin-top:18px;text-align:center}
+
+  /* ---------- methodology / footer ---------- */
+  details{background:var(--card);border:1px solid var(--line);border-radius:10px;margin-top:26px;padding:0}
+  summary{
+    font-family:var(--sans);font-weight:700;padding:14px 18px;cursor:pointer;
+  }
+  summary:focus-visible{outline:3px solid var(--blue);outline-offset:-3px}
+  .details-body{padding:0 18px 18px;font-size:.95rem}
+  .details-body p{margin-top:8px}
+  .details-body a{color:var(--blue)}
+  .src-entry{margin-top:16px;border-top:2px solid var(--ink);padding-top:8px}
+  .src-entry h3{font-family:var(--sans);font-size:.95rem;font-weight:800}
+  .src-entry ul{padding-left:20px;margin-top:6px}
+  .src-entry li{margin-top:6px;font-size:.9rem}
+  .src-entry li .when{font-family:var(--sans);font-size:.72rem;font-weight:700;color:var(--ink-soft);letter-spacing:.06em;margin-right:4px}
+  .src-entry li a{color:var(--blue);word-break:break-all}
+  textarea{
+    width:100%;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.72rem;
+    height:200px;border:1px solid var(--line);border-radius:8px;padding:10px;margin-top:10px;
+    background:var(--paper);color:var(--ink);
+  }
+  footer{margin-top:30px;font-size:.85rem;color:var(--ink-soft);font-family:var(--sans)}
+  .recent{margin-top:14px}
+  .recent .t{font-family:var(--sans);font-size:.75rem;font-weight:800;letter-spacing:.12em;color:var(--ink-soft)}
+  .recent .chips{margin-top:8px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="kufiya" role="presentation"></div>
+  <div class="masthead">
+    <h1>Toy Trace</h1>
+    <p class="tagline">Photograph a toy. Trace who makes it, who owns it, and what their documented connections to the occupation of Palestine are. Every claim sourced and dated.</p>
+  </div>
+</header>
+
+<!-- STEP 1 : PHOTO -->
+<div class="step">
+  <div class="step-head"><span class="n">1</span> Take a picture of the toy or its packaging</div>
+  <div class="step-body">
+    <div id="cameraBtns">
+      <button id="camBtn">Open camera</button>
+      <button id="uploadBtn" class="ghost">Upload a photo</button>
+      <button id="skipBtn" class="ghost">Skip, identify directly</button>
+      <input type="file" id="fileInput" accept="image/*" capture="environment" hidden>
+    </div>
+    <video id="video" autoplay playsinline muted></video>
+    <button id="shotBtn" style="display:none;margin-top:12px">Take photo</button>
+    <img id="photoPreview" alt="Photo of the toy you took">
+    <canvas id="canvas" hidden></canvas>
+    <button id="aiScanBtn" style="display:none;margin-top:12px" class="ghost">Scan photo with AI</button>
+    <p class="cam-note" id="camStatus"></p>
+    <p class="cam-note" id="aiStatus"></p>
+    <div class="recent" id="recentBox" style="display:none">
+      <div class="t">RECENT LOOKUPS</div>
+      <div class="chips" id="recentChips"></div>
+    </div>
+  </div>
+</div>
+
+<!-- STEP 2 : IDENTIFY -->
+<div class="step" id="identifyStep">
+  <div class="step-head"><span class="n">2</span> Identify the toy</div>
+  <div class="step-body">
+    <p class="hint">Name the character, brand or company on the packaging. The photo stays on your device; this tool matches by name.</p>
+    <input type="text" id="brandInput" placeholder="e.g. Ms. Rachel, PAW Patrol, Barbie, Bratz, LEGO Star Wars…" autocomplete="off">
+    <div class="chips" id="suggestions"></div>
+  </div>
+</div>
+
+<!-- DOSSIER -->
+<div id="dossier" aria-live="polite"></div>
+
+<!-- METHODOLOGY -->
+<details>
+  <summary>Method, limits and how to extend this</summary>
+  <div class="details-body">
+    <p><strong>What this is.</strong> A research companion for people who want their children's playthings out of supply chains linked to the occupation of Palestine. The database was compiled by hand in October 2026 from public reporting, boycott coalitions and company statements. Each entry shows its sources so you can check the work.</p>
+    <p><strong>What the verdicts mean.</strong> <em>Boycott call</em> means a recognised campaign or coalition explicitly calls for boycotting the company. <em>Documented ties</em> means dated, sourced facts exist but no formal boycott call. <em>Nothing documented found</em> means exactly that: absence of evidence, not innocence. Weak or single-source items are labelled as such; we would rather show you a doubt than hide it.</p>
+    <p><strong>What this is not.</strong> Not legal advice, not a verdict on individuals' beliefs, and not exhaustive. Personal philanthropy is noted as personal, separate from corporate conduct, and Jewishness or Israeli origin is never treated as a tie: only actions, money and statements are recorded.</p>
+    <p><strong>Extending it.</strong> For a toy not covered, check the BDS movement's official lists at <a href="https://bdsmovement.net/Act-Now-Against-These-Companies-Profiting-From-Genocide" target="_blank" rel="noopener">bdsmovement.net</a>, <a href="https://www.whoprofits.org" target="_blank" rel="noopener">Who Profits</a>, and the <a href="https://boycott-israel.org/boycott.html" target="_blank" rel="noopener">boycott-israel.org</a> list. The full database below is copyable JSON: paste it into a future conversation and it can be extended and rebuilt. When this page can reach the companion service, it also pulls the latest researched database from it at load, so new entries appear here automatically.</p>
+    <p id="dbStatus" style="font-family:var(--sans);font-size:.85rem;margin-top:2px">Database: built-in entries only (connect the companion service for live updates).</p>
+    <p><strong>Every source, grouped by entry.</strong> Each fact in a dossier links to its own source; this is the full list behind the database so every claim can be verified in one place.</p>
+    <div id="allSources"></div>
+    <p><strong>AI photo scanning.</strong> With a companion service deployed, the app sends your photo to the Thaura model to identify the toy, then matches the answer against this database. The AI only does perception (what toy is this); every judgement comes from the sourced database, so the analysis itself can never be invented. The AI's suggestion is always shown to you to confirm before a dossier opens.</p>
+    <p style="font-family:var(--sans);font-size:.88rem;margin-top:6px">Companion service endpoint (no key needed in the page; the key lives on your server):</p>
+    <input type="text" id="aiEndpoint" placeholder="https://toy-trace-proxy.your-server.example" autocomplete="off" style="font-size:.9rem">
+    <button id="saveEndpointBtn" class="ghost" style="margin-top:8px;font-size:.85rem">Save endpoint</button>
+    <p id="endpointStatus" style="font-family:var(--sans);font-size:.85rem;margin-top:4px"></p>
+    <button id="copyDbBtn" class="ghost" style="margin-top:12px">Copy database JSON</button>
+    <textarea id="dbBox" readonly spellcheck="false" hidden></textarea>
+    <p id="copyStatus" style="font-family:var(--sans);font-size:.85rem;margin-top:6px"></p>
+  </div>
+</details>
+
+<footer>
+  Compiled October 2026. Boycott calls change as campaigns succeed; the movements themselves are always the live record. Solidarity tools like this exist because the people most affected deserve the research.
+</footer>
+
+</div>
+
+<script>
+/* ================= DATABASE ================= */
+const DB = {
+  version: "2026-10-31",
+  companies: {
+    "spin-master": {
+      name: "Spin Master",
+      verdict: "call",
+      aliases: ["spinmaster","spin master","paw patrol","pawpatrol","patrol","bakugan","gund","melissa doug","melissa & doug","melissa and doug","toca boca","rubiks","rubik's","rubiks cube","kinetic sand","air hogs","hatchimals","ms rachel","ms. rachel","mrs rachel","rachel accurso","sensory take-along","take-along"],
+      trail: [
+        { role:"MANUFACTURER", who:"Spin Master Corp.", detail:"Canadian company, TSX: TOY. Chief executive since July 2025: Christina Miller; board leadership shared between co-founders including Ronnen Harary (chair per company materials) and Anton Rabie.",
+          facts:[
+            {when:"JUN 2025", text:"Christina Miller appointed CEO, succeeding Max Rangel; announced by the company.", src:{t:"PR Newswire / Spin Master", u:"https://www.prnewswire.com/news-releases/spin-master-announces-leadership-transition-as-christina-miller-is-appointed-ceo-302487824.html"}}
+          ]},
+        { role:"CO-FOUNDER", who:"Ronnen Harary", detail:"Co-founder of Spin Master (1994). His personal charity, the Ronnen Harary Foundation, is the documented link.",
+          facts:[
+            {when:"SEP 2024", text:"The Canadian BDS Coalition documents the foundation funding the Jerusalem Municipality and support for Israeli soldiers, and calls for a boycott of Spin Master over it.", conf:"strong", src:{t:"Canadian BDS Coalition", u:"https://bdscoalition.ca/2024/09/13/boycott-spin-master-canadian-taxpayers-subsidizing-ronnen-hararys-funding-of-the-jerusalem-municipality-and-the-israeli-military/"}},
+            {when:"DEC 2024", text:"The coalition reports Harary's sister charity, 1 R32 Foundation, publicised feeding IDF soldiers ahead of the ground invasion of Gaza in late 2023, and asks Canadian authorities to audit both charities. Harary has also personally delivered supplies to army bases.", conf:"strong", src:{t:"Canadian BDS Coalition", u:"https://bdscoalition.ca/2024/12/19/dont-fill-your-holiday-stocking-with-apartheid-or-war-crimes-boycott-spinmaster/"}}
+          ]},
+        { role:"CORPORATE ACTS", who:"Spin Master as a company", detail:"No documented corporate operations, investment or statements tying the company itself to Israel or the settlements were found. The documented link is the founder's personal philanthropy, which is why the boycott call targets the company's revenue rather than recorded corporate conduct.",
+          facts:[]}
+      ],
+      unknowns:[
+        "Whether the Ronnen Harary Foundation continues this funding in 2026: the coalition's documentation dates from 2024.",
+        "Spin Master's charitable giving through its corporate foundation (The Toy Movement) has not been audited for Israel-related grants in the sources found."
+      ]
+    },
+    "ms-rachel": {
+      name: "Ms. Rachel toys",
+      verdict:"call",
+      aliases:["ms rachel","ms. rachel","mrs rachel","rachel accurso","rachel accurso","songs for littles","sensory take-along"],
+      trail:[
+        { role:"THE PERSON ON THE TOY", who:"Rachel Accurso (Ms. Rachel)", detail:"Children's educator with 16M+ subscribers. A leading pro-Palestinian voice in US entertainment.",
+          pos:"This is one of the rare toys whose face belongs to someone punished, not promoted, for standing with Palestine. Her record is below.",
+          facts:[
+            {when:"JUN 2025", text:"Said she is willing to risk her career to keep advocating for children in Gaza.", src:{t:"The Guardian", u:"https://www.theguardian.com/world/2025/jun/04/ms-rachel-gaza-children"}},
+            {when:"SEP 2026", text:"Pledged $1 million to the Palestine Children's Relief Fund, matching Macklemore's donation, and urged other celebrities to speak out against the genocide in Gaza.", src:{t:"CBC News", u:"https://www.cbc.ca/news/entertainment/ms-rachel-macklemore-donation-sheeran-tour-9.7349853"}}
+          ]},
+        { role:"MANUFACTURER (LICENSEE)", who:"Spin Master", detail:"Her toy line is made under licence by Spin Master, whose co-founder's charity funded the Jerusalem Municipality and IDF soldier support, prompting a coalition boycott call.",
+          facts:[
+            {when:"SEP 2024", text:"Canadian BDS Coalition boycott call over Ronnen Harary's foundation.", conf:"strong", src:{t:"Canadian BDS Coalition", u:"https://bdscoalition.ca/2024/09/13/boycott-spin-master-canadian-taxpayers-subsidizing-ronnen-hararys-funding-of-the-jerusalem-municipality-and-the-israeli-military/"}}
+          ],
+          pos:"Her royalties fund the brand; the manufacturing money flows to Spin Master. Buying second-hand or alternatives, and donating the difference to PCRF, supports her work without the licensee link."},
+        { role:"CONTEXT", who:"The attacks on her", detail:"Pro-Israel groups have petitioned the Justice Department to investigate her Gaza advocacy, and named her to an 'Antisemite of the Year' list. Her account once liked an antisemitic comment by accident, which she apologised for.",
+          facts:[
+            {when:"APR 2025", text:"StopAntisemitism asked the US Attorney General to investigate her posts on Gaza children as 'propaganda'.", src:{t:"The Guardian", u:"https://www.theguardian.com/us-news/2025/apr/09/stop-antisemitism-ms-rachel-doj-investigation"}}
+          ]}
+      ],
+      unknowns:[
+        "The exact royalty split between Accurso and Spin Master has not been made public.",
+        "Counterfeit Ms. Rachel toys are widespread, with unknown manufacturing chains entirely."
+      ]
+    },
+    "mattel": {
+      name:"Mattel",
+      verdict:"ties",
+      aliases:["mattel","barbie","fisher price","fisher-price","hot wheels","uno","american girl","monster high","imaginext","polly pocket","wwe","jurassic world","sesame street","thomas","thomas the tank","fireman sam","bob the builder"],
+      trail:[
+        { role:"MANUFACTURER", who:"Mattel, Inc.", detail:"US company (NASDAQ: MAT). Chairman and CEO: Ynon Kreiz, Israeli-American, who grew up in Israel.",
+          facts:[
+            {when:"OCT 2023", text:"Kreiz spoke of the war as personal, telling Yahoo Finance 'As an Israeli, this is personal'.", src:{t:"LinkedIn / Yahoo Finance", u:"https://www.linkedin.com/posts/briansozzi_mattel-inc-chairman-and-ceo-ynon-kreiz-activity-7123344305540231168-5spt"}},
+            {when:"OCT 2023", text:"Kreiz joined 15 entertainment industry leaders in a joint statement denouncing the Hamas attacks, and signed the Creative Community for Peace open letter supporting Israel.", conf:"strong", src:{t:"TheWrap", u:"https://www.thewrap.com/gary-barber-ynon-kreiz-jeffrey-katzenberg-hamas-israel-joint-statement/"}}
+          ]},
+        { role:"CORPORATE ACTS", who:"Mattel as a company", detail:"The Mattel Children's Foundation directed humanitarian cash and toy donations toward shelters and hospitals in Israel after October 2023. Mattel is not on the BDS movement's official target lists.",
+          facts:[
+            {when:"2024", text:"Company statement describing the foundation's post-October 7 humanitarian focus on Israeli shelters and hospitals.", conf:"weak", src:{t:"Reported statement, circulating via r/MonsterHigh", u:"https://www.reddit.com/r/MonsterHigh/comments/1bta25r/mattel_supports_israel/"}}
+          ]}
+      ],
+      unknowns:[
+        "No documented donation by Mattel to Israeli state or military bodies was found; the documented acts are the CEO's signature on advocacy letters and humanitarian giving.",
+        "Sponsorship of the 2024 Israel Film Festival is claimed by boycott-list sites but not confirmed against primary sources."
+      ]
+    },
+    "disney": {
+      name:"Disney toys",
+      verdict:"call",
+      aliases:["disney","pixar","marvel","avengers","spiderman","spider-man","star wars","frozen","elsa","mickey","minnie","toy story","stitch","princess","encanto","moana","sabra","captain america"],
+      trail:[
+        { role:"MANUFACTURER / LICENSOR", who:"The Walt Disney Company", detail:"Most 'Disney' toys are made by licensees (Mattel holds several, plus Jakks Pacific), but the brand, characters and royalties belong to Disney.",
+          facts:[
+            {when:"OCT 2023", text:"Donated $2 million to humanitarian relief in Israel, including Magen David Adom, with Bob Iger's statement framing it around the attacks on Israel.", conf:"strong", src:{t:"Variety", u:"https://variety.com/2023/film/news/disney-2-million-dollar-donation-israel-hamas-war-1235754737/"}}
+          ]},
+        { role:"BOYCOTT RECORD", who:"BDS movement", detail:"Disney+ has been a BDS consumer boycott target, and the movement publicly renewed its Disney boycott over the inclusion of Sabra, a pro-Israel comic character, in Captain America: Brave New World.",
+          facts:[
+            {when:"2025-2026", text:"BDS reiterated its Disney boycott after Marvel revived the Sabra character.", conf:"strong", src:{t:"Images (Dawn)", u:"https://images.dawn.com/news/1196088/the-bds-movement-wants-to-remind-you-its-still-boycotting-marvel-and-disney-for-palestine"}}
+          ]}
+      ],
+      unknowns:[
+        "How much of a licensed Disney toy's price reaches Disney as royalty is not published.",
+        "Licensee conduct varies: a Disney toy made by Mattel carries both companies' records."
+      ]
+    },
+    "hasbro": {
+      name:"Hasbro",
+      verdict:"none",
+      aliases:["hasbro","transformers","peppa pig","my little pony","play doh","play-doh","monopoly","nerf","gi joe","g.i. joe","baby alive","furby","bing","pteranodon","candy land","risk"],
+      trail:[
+        { role:"MANUFACTURER", who:"Hasbro, Inc.", detail:"US company (NASDAQ: HAS).",
+          facts:[
+            {when:"OCT 2023", text:"The Toy Foundation, the toy industry's collective charity, mobilised donations amid the Israel-Hamas war; industry-wide rather than a Hasbro corporate act.", conf:"weak", src:{t:"Toy industry reporting via boycott lists", u:"https://www.tumblr.com/tooningin/769683966047453184/what-are-some-good-alternative-toy-brands"}}
+          ]},
+        { role:"RESEARCH RESULT", who:"What we found", detail:"No documented donation, statement or operation tying Hasbro as a company to Israel or the occupation was found in the sources checked. Consumer boycott threads exist on social media, but none anchor to a primary source. Absence of evidence is not innocence.",
+          facts:[]}
+      ],
+      unknowns:[
+        "Executive philanthropy of Hasbro leadership has not been examined in the sources found.",
+        "Hasbro's licensing web (Disney, Marvel) means some Hasbro products carry Disney's documented ties."
+      ]
+    },
+    "lego": {
+      name:"LEGO",
+      verdict:"none",
+      aliases:["lego","duplo","lego star wars","lego city","lego friends","ninjago","lego technic","lego harry potter","bricks"],
+      trail:[
+        { role:"MANUFACTURER", who:"The LEGO Group", detail:"Danish, family-owned (Kirkbi).",
+          facts:[
+            {when:"2022", text:"LEGO's documented Israel activity is commercial: retail stores opening in Israeli cities. No corporate donation, statement or military tie was found, and LEGO is not on the BDS movement's target lists.", conf:"strong", src:{t:"Lev Haolam retail reporting", u:"https://www.levhaolam.com/support-israel/retail-stores/does-lego-support-israel/"}}
+          ]},
+        { role:"RESEARCH RESULT", who:"What we found", detail:"Nothing documented. Watch the licence web: LEGO Star Wars and LEGO Marvel pay royalties to Disney, which carries documented ties. Absence of evidence is not innocence.",
+          facts:[]}
+      ],
+      unknowns:[
+        "Whether LEGO's mall and retail partners in Israel include settlement locations was not verifiable in the sources found."
+      ]
+    },
+    "mga": {
+      name:"MGA Entertainment",
+      verdict:"weak",
+      aliases:["mga","mga entertainment","bratz","lol surprise","lol dolls","l.o.l.","little tikes","rainbow high","miniverse"],
+      trail:[
+        { role:"FOUNDER / CEO", who:"Isaac Larian", detail:"Iranian-born American founder and CEO of MGA, the largest privately held toy company.",
+          facts:[
+            {when:"2024-2026", text:"Profiled by Reverse Canary Mission as publicly supporting Zionist figures and narratives on his personal LinkedIn. This source is a single activist-run database and its characterisations could not be independently confirmed; treated as weak.", conf:"weak", src:{t:"Reverse Canary Mission", u:"https://www.reversecanarymission.org/person/isaac-larian"}}
+          ]},
+        { role:"RESEARCH RESULT", who:"What we found", detail:"No documented corporate donation or operation tying MGA to Israel was found. The only signal is the founder's personal social-media activity, which is thin ground for a boycott call.",
+          facts:[]}
+      ],
+      unknowns:[
+        "Larian's charitable giving has not been documented in the sources found.",
+        "Note: Larian has an independently documented record of public attacks on a Black artist and on Black Lives Matter (Bloomberg, 2020), which may matter to buyers weighing the company overall."
+      ]
+    },
+    "dr-zigs": {
+      name: "Dr Zigs",
+      verdict: "none",
+      aliases: ["dr zigs","dr.zigs","drzigs","zigs","dr zigs bubbles","dr zigs extraodrinary","giant bubbles","bubble mix","pollinating bubbles","make pollinating bubbles","bubbles not bombs","paola dyboski","paola dyboski-bryant","bubble toys"],
+      trail: [
+        { role:"MANUFACTURER", who:"Dr Zigs Ltd (Companies House 09083207)", detail:"Small independent Welsh company founded in 2011 by Paola Dyboski-Bryant. Giant bubble toys and mixes are made by hand at its Bubble HQ in North Wales; the founder owns the company, with no parent company behind it.",
+          pos:"This is the opposite case to most entries here: a toy company with a documented, public record of standing with Palestine.",
+          facts:[
+            {when:"NOV 2022", text:"Company background: started at home in Tregarth in 2011, grown to around 11 employees, still manufacturing in North Wales.", src:{t:"North Wales Live", u:"https://www.dailypost.co.uk/news/north-wales-news/bubble-maker-dr-zigs-being-25433160"}},
+            {when:"2026", text:"Companies House record: Dr Zigs Ltd, company number 09083207, registered at Vaynol Estate, Bangor, Gwynedd, with Paola Dyboski-Bryant as director.", src:{t:"Companies House (GOV.UK)", u:"https://find-and-update.company-information.service.gov.uk/company/09083207/officers"}}
+          ]},
+        { role:"STATED POSITION", who:"Dr Zigs as a company", detail:"The company's position is stated on its own shopfront, in its own words, not inferred from anyone else.",
+          facts:[
+            {when:"2026", text:"The Dr Zigs website states the company is 'proudly pro-Palestine' and stands for Palestinian freedom, dignity and children's rights, including every child's freedom to play.", src:{t:"drzigs.com", u:"https://drzigs.com/"}}
+          ]},
+        { role:"SOLIDARITY IN PRACTICE", who:"Bubbles Not Bombs", detail:"A project run through Dr Zigs for 15 years, which became an independent nonprofit in 2026, bringing play to children in war zones and displacement camps.",
+          facts:[
+            {when:"MAY 2026", text:"Bubble kits from the project were aboard the Global Sumud Flotilla, the aid mission attacked by Israeli forces as it tried to break the blockade of Gaza, and kits have since reached children in Gaza displacement camps.", src:{t:"Middle East Eye", u:"https://www.middleeasteye.net/news/gaza-palestine-moments-of-childhood-bubbles-not-bombs"}},
+            {when:"JUN 2026", text:"The project distributes kits in Gaza and Lebanon and has begun reaching children in Myanmar and Cox's Bazaar, with Sudan, Congo and Tigray planned.", src:{t:"Middle East Eye", u:"https://www.middleeasteye.net/news/gaza-palestine-moments-of-childhood-bubbles-not-bombs"}}
+          ]}
+      ],
+      unknowns:[
+        "No boycott call exists and none is called for: everything documented points the other way.",
+        "Dr Zigs registered a French arm in 2021 to keep EU trade working after Brexit; manufacturing stayed in North Wales, and no Israel-facing operations were found in the sources checked."
+      ]
+    }
+  }
+};
+
+/* ================= STATE ================= */
+let stream = null;
+let photoData = null;
+const $ = id => document.getElementById(id);
+
+/* ================= CAMERA ================= */
+$('camBtn').addEventListener('click', async () => {
+  try {
+    stream = await navigator.mediaDevices.getUserMedia({video:{facingMode:'environment'}});
+    $('video').srcObject = stream;
+    $('video').style.display = 'block';
+    $('shotBtn').style.display = 'inline-block';
+    $('camStatus').textContent = '';
+  } catch (e) {
+    $('camStatus').textContent = 'Camera not available here. Use "Upload a photo" or "Skip" instead.';
+  }
+});
+$('shotBtn').addEventListener('click', () => {
+  const v = $('video');
+  const c = $('canvas');
+  c.width = v.videoWidth; c.height = v.videoHeight;
+  c.getContext('2d').drawImage(v, 0, 0);
+  photoData = c.toDataURL('image/jpeg', 0.85);
+  showPhoto(photoData);
+  stopCam();
+});
+function stopCam(){ if (stream) { stream.getTracks().forEach(t => t.stop()); stream = null; } $('video').style.display = 'none'; $('shotBtn').style.display = 'none'; }
+$('uploadBtn').addEventListener('click', () => $('fileInput').click());
+$('fileInput').addEventListener('change', e => {
+  const f = e.target.files[0];
+  if (!f) return;
+  const r = new FileReader();
+  r.onload = ev => { photoData = ev.target.result; showPhoto(photoData); };
+  r.readAsDataURL(f);
+});
+function showPhoto(data){
+  const img = $('photoPreview');
+  img.src = data; img.style.display = 'block';
+  $('aiScanBtn').style.display = 'inline-block';
+  $('identifyStep').style.display = 'block';
+  $('identifyStep').scrollIntoView({behavior:'smooth'});
+}
+$('skipBtn').addEventListener('click', () => {
+  $('identifyStep').style.display = 'block';
+  $('brandInput').focus();
+  $('identifyStep').scrollIntoView({behavior:'smooth'});
+});
+
+/* ================= IDENTIFY ================= */
+function allBrands(){
+  return Object.entries(DB.companies).map(([id,c]) => ({id, name:c.name, verdict:c.verdict}));
+}
+function match(q){
+  q = q.toLowerCase().trim();
+  if (!q) return null;
+  let best = null, bestScore = 0;
+  for (const [id,c] of Object.entries(DB.companies)){
+    let score = 0;
+    if (c.name.toLowerCase() === q) score = 100;
+    else if (c.aliases.some(a => a === q)) score = 90;
+    else {
+      for (const a of c.aliases){ if (q.includes(a) && a.length > 3) score = Math.max(score, 40 + a.length); }
+      if (c.name.toLowerCase().includes(q) && q.length > 3) score = Math.max(score, 50);
+    }
+    if (score > bestScore){ bestScore = score; best = id; }
+  }
+  return bestScore >= 40 ? best : null;
+}
+$('brandInput').addEventListener('keydown', e => {
+  if (e.key === 'Enter' && $('brandInput').value.trim()) lookup($('brandInput').value);
+});
+$('brandInput').addEventListener('input', () => {
+  const q = $('brandInput').value.toLowerCase().trim();
+  const box = $('suggestions');
+  box.innerHTML = '';
+  if (!q){ return; }
+  const hits = allBrands().filter(b => b.name.toLowerCase().includes(q));
+  hits.slice(0,6).forEach(b => {
+    const s = document.createElement('button');
+    s.className = 'chip'; s.textContent = b.name;
+    s.addEventListener('click', () => lookup(b.name));
+    box.appendChild(s);
+  });
+});
+
+/* ================= LOOKUP ================= */
+function lookup(name){
+  const id = match(name);
+  render(id ? DB.companies[id] : null, name);
+  saveRecent(name);
+  $('dossier').style.display = 'block';
+  $('dossier').scrollIntoView({behavior:'smooth'});
+}
+const VERDICTS = {
+  call:   {cls:'v-call',   label:'Boycott call: documented.', body:'A recognised campaign or coalition explicitly calls for boycotting this company. Read the sources below and decide for yourself.'},
+  ties:   {cls:'v-ties',   label:'Documented ties: no formal boycott call.', body:'Dated, sourced facts connect this company or its leadership to support for Israel, but no recognised campaign calls for boycotting it. Weigh it yourself.'},
+  none:   {cls:'v-none',   label:'Nothing documented found.', body:'We found no documented ties in the sources checked. This is absence of evidence, not a clean bill of health. Independent companies have fewer eyes on them.'},
+  unknown:{cls:'v-unknown',label:'Not in the database yet.', body:'This toy is not covered yet. Below is how to research it yourself, and the methodology note explains how to add it.'}
+};
+function render(c, query){
+  const d = $('dossier');
+  if (!c){
+    d.innerHTML = `
+      <div class="verdict v-unknown"><h2>${VERDICTS.unknown.label}</h2><p>${VERDICTS.unknown.body} Nothing matched “${esc(query)}”.</p></div>
+      <div class="unknowns"><div class="t">Research it yourself</div>
+        <ul>
+          <li>Check the <a href="https://bdsmovement.net/Act-Now-Against-These-Companies-Profiting-From-Genocide" target="_blank" rel="noopener">BDS movement's target list</a>.</li>
+          <li>Search <a href="https://www.whoprofits.org" target="_blank" rel="noopener">Who Profits</a> for the company name.</li>
+          <li>Search the company plus “Israel” in news from the last two years, and separate what the company did from what its executives did personally.</li>
+        </ul>
+      </div>
+      <p class="hint" style="margin-top:12px">New toy? Ask Thaura in your chat to research it against the sources. New entries go into the shared database and appear on this page automatically, no reinstall needed.</p>
+      <div class="search-again"><button class="ghost" onclick="document.getElementById('brandInput').focus()">Look up another toy</button></div>`;
+    return;
+  }
+  const v = VERDICTS[c.verdict] || VERDICTS.unknown;
+  const trail = c.trail.map(node => {
+    const facts = (node.facts || []).map(f => `
+      <div class="fact">
+        <span class="when">${f.when}</span> ${f.conf ? `<span class="conf ${f.conf}">${f.conf === 'strong' ? 'STRONG SOURCING' : 'WEAK SOURCING'}</span>` : ''}
+        ${esc(f.text)} <a href="${f.src.u}" target="_blank" rel="noopener">${esc(f.src.t)} ↗</a>
+      </div>`).join('');
+    return `
+      <div class="trail-node">
+        <div class="role">${esc(node.role)}</div>
+        <div class="who">${esc(node.who)}</div>
+        <div class="detail">${esc(node.detail)}</div>
+        ${node.pos ? `<div class="pos-note"><span class="t">Solidarity note</span><div>${esc(node.pos)}</div></div>` : ''}
+        ${facts ? `<div class="facts">${facts}</div>` : ''}
+      </div>`;
+  }).join('');
+  const unknowns = c.unknowns && c.unknowns.length ? `
+    <div class="unknowns"><div class="t">What we don't know</div><ul>${c.unknowns.map(u => `<li>${esc(u)}</li>`).join('')}</ul></div>` : '';
+  d.innerHTML = `
+    <div class="verdict ${v.cls}"><h2>${esc(c.name)}: ${v.label}</h2><p>${v.body}</p></div>
+    <div class="trail">${trail}</div>
+    ${unknowns}
+    <div class="search-again"><button class="ghost" onclick="document.getElementById('brandInput').value='';document.getElementById('brandInput').focus()">Look up another toy</button></div>`;
+}
+function esc(s){ const d = document.createElement('div'); d.textContent = s == null ? '' : String(s); return d.innerHTML; }
+
+/* ================= AI SCAN ================= */
+const DEFAULT_ENDPOINT = 'https://toy-trace-proxy.build.happyoperators.com'; /* set when deploying a hosted copy */
+async function getEndpoint(){
+  try {
+    const r = await window.storage.get('toytrace:aiEndpoint');
+    if (r && r.value) return r.value;
+  } catch(e){}
+  return DEFAULT_ENDPOINT;
+}
+(async () => {
+  const ep = await getEndpoint();
+  if (ep) { $('aiEndpoint').value = ep; $('endpointStatus').textContent = 'Saved: scanning enabled.'; }
+})();
+$('saveEndpointBtn').addEventListener('click', async () => {
+  const v = $('aiEndpoint').value.trim().replace(/\/+$/,'');
+  try {
+    await window.storage.set('toytrace:aiEndpoint', v);
+    $('endpointStatus').textContent = v ? 'Saved: scanning enabled.' : 'Cleared: scanning disabled, manual identify only.';
+  } catch(e){ $('endpointStatus').textContent = 'Could not save here; you would need to re-enter it after reloading.'; }
+});
+$('aiScanBtn').addEventListener('click', async () => {
+  if (!photoData){ $('aiStatus').textContent = 'Take or upload a photo first.'; return; }
+  const ep = await getEndpoint();
+  if (!ep){
+    $('aiStatus').textContent = 'Scanning needs a companion service (a tiny server holding the AI key). See Method below for setup, or identify manually.';
+    $('identifyStep').style.display = 'block';
+    return;
+  }
+  $('aiScanBtn').disabled = true;
+  $('aiStatus').textContent = 'Scanning the photo…';
+  try {
+    const res = await fetch(ep + '/identify', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({image: photoData})
+    });
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const id = await res.json();
+    const names = [id.brand, id.company, id.toy_name].filter(Boolean);
+    $('aiStatus').textContent = 'AI reads this as: ' + (id.toy_name || 'unknown') +
+      (id.confidence != null ? ' (confidence ' + Math.round(id.confidence * 100) + '%)' : '') +
+      (id.notes ? ' — ' + id.notes : '');
+    const box = $('suggestions');
+    box.innerHTML = '';
+    const matchedId = names.map(n => match(n)).find(Boolean);
+    if (matchedId){
+      const go = document.createElement('button');
+      go.className = 'chip';
+      go.style.borderColor = 'var(--ink)';
+      go.style.fontWeight = '700';
+      go.textContent = 'Open dossier: ' + DB.companies[matchedId].name;
+      go.addEventListener('click', () => lookup(DB.companies[matchedId].name));
+      box.appendChild(go);
+    }
+    names.slice(0, 4).forEach(n => {
+      const s = document.createElement('button');
+      s.className = 'chip'; s.textContent = n;
+      s.addEventListener('click', () => lookup(n));
+      box.appendChild(s);
+    });
+    $('identifyStep').style.display = 'block';
+    if (!matchedId && names.length){
+      $('aiStatus').textContent += ' Not in the database yet: ask Thaura in your chat to research it, or identify manually below.';
+    }
+  } catch(e){
+    $('aiStatus').textContent = 'Scan failed: ' + e.message + '. Check the endpoint in Method, or identify manually below.';
+    $('identifyStep').style.display = 'block';
+  } finally {
+    $('aiScanBtn').disabled = false;
+  }
+});
+
+/* ================= RECENTS (window.storage) ================= */
+async function saveRecent(name){
+  try {
+    const r = await window.storage.get('toytrace:recents');
+    let list = r && r.value ? JSON.parse(r.value) : [];
+    list = [name, ...list.filter(x => x !== name)].slice(0, 5);
+    await window.storage.set('toytrace:recents', JSON.stringify(list));
+    renderRecents(list);
+  } catch(e){ /* storage unavailable: recents just don't persist */ }
+}
+async function loadRecent(){
+  try {
+    const r = await window.storage.get('toytrace:recents');
+    if (r && r.value) renderRecents(JSON.parse(r.value));
+  } catch(e){}
+}
+function renderRecents(list){
+  if (!list || !list.length) return;
+  $('recentBox').style.display = 'block';
+  const box = $('recentChips');
+  box.innerHTML = '';
+  list.forEach(n => {
+    const b = document.createElement('button');
+    b.className = 'chip'; b.textContent = n;
+    b.addEventListener('click', () => lookup(n));
+    box.appendChild(b);
+  });
+}
+loadRecent();
+
+/* ================= SOURCE LIST (generated from the DB, so it never drifts) ================= */
+function buildSources(){
+  const box = $('allSources');
+  if (!box) return;
+  let html = '';
+  for (const c of Object.values(DB.companies)){
+    const facts = [];
+    for (const node of (c.trail || [])){
+      for (const f of (node.facts || [])){
+        facts.push(`<li><span class="when">${esc(f.when)}</span>${f.conf === 'weak' ? '<span class="conf weak">WEAK</span> ' : ''}${esc(f.src.t)}: <a href="${f.src.u}" target="_blank" rel="noopener">${esc(f.src.u)}</a></li>`);
+      }
+    }
+    html += `<div class="src-entry"><h3>${esc(c.name)}</h3>${facts.length ? `<ul>${facts.join('')}</ul>` : '<p style="font-size:.9rem;color:var(--ink-soft)">No sourced facts; verdict rests on the research note in its dossier.</p>'}</div>`;
+  }
+  box.innerHTML = html;
+}
+buildSources();
+
+/* ================= LIVE DATABASE (remote merge from the companion proxy) =================
+   The proxy serves the current researched database at /db. Entries there override and
+   extend the built-in ones, so new research reaches every copy of this page without
+   reinstalling anything. If the proxy is unreachable, the built-in database stands. */
+(async () => {
+  try {
+    const ep = await getEndpoint();
+    if (!ep) return;
+    const res = await fetch(ep + '/db');
+    if (!res.ok) return;
+    const remote = await res.json();
+    if (!remote || !remote.companies) return;
+    let added = 0;
+    for (const [id, c] of Object.entries(remote.companies)){
+      if (!DB.companies[id]) added++;
+      DB.companies[id] = c;
+    }
+    if (remote.version) DB.version = remote.version;
+    const el = $('dbStatus');
+    if (el) el.textContent = 'Live database: ' + Object.keys(DB.companies).length + ' entries, version ' + DB.version + (added ? ' (' + added + ' added by research)' : '') + '.';
+    buildSources();
+  } catch(e){ /* proxy unreachable: the built-in database stands */ }
+})();
+
+/* ================= DB EXPORT ================= */
+$('copyDbBtn').addEventListener('click', async () => {
+  const box = $('dbBox');
+  box.value = JSON.stringify(DB, null, 2);
+  box.hidden = false;
+  try {
+    await navigator.clipboard.writeText(box.value);
+    $('copyStatus').textContent = 'Copied. Paste it into a new conversation to extend the database.';
+  } catch(e){
+    box.select();
+    $('copyStatus').textContent = 'Select all and copy manually (clipboard blocked here).';
+  }
+});
+</script>
+</body>
+</html>

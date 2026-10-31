@@ -13,6 +13,11 @@ const PORT = process.env.PORT || 8080;
 const DATA_DIR = process.env.DATA_DIR || '/data';
 const KEY_FILE = path.join(DATA_DIR, 'thaura_api_key');
 const TOKEN_FILE = path.join(DATA_DIR, 'scan_token');
+// The researched database (db.json) and a copy of the app page (app.html) live in
+// this repo next to server.js. Updating the database is a one-file commit and
+// redeploy; every copy of the app page picks it up at its next load via /db.
+const DB_FILE = path.join(__dirname, 'db.json');
+const APP_FILE = path.join(__dirname, 'app.html');
 
 function readSecret(envName, file) {
   if (process.env[envName]) return process.env[envName].trim();
@@ -97,6 +102,22 @@ async function identify(req, res) {
         fs.writeFileSync(KEY_FILE, key.trim() + '\n', { mode: 0o600 });
         if (scan_token) fs.writeFileSync(TOKEN_FILE, String(scan_token).trim() + '\n', { mode: 0o600 });
         return json(res, 200, { ok: true });
+      }
+
+      if (url.pathname === '/db' && req.method === 'GET') {
+        try {
+          const body = fs.readFileSync(DB_FILE);
+          res.writeHead(200, { 'Content-Type': 'application/json', 'Cache-Control': 'no-cache' });
+          return res.end(body);
+        } catch { return json(res, 404, { error: 'No db.json found' }); }
+      }
+
+      if (req.method === 'GET' && (url.pathname === '/' || url.pathname === '/app')) {
+        try {
+          const body = fs.readFileSync(APP_FILE);
+          res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8', 'Cache-Control': 'no-cache' });
+          return res.end(body);
+        } catch { return json(res, 404, { error: 'No app.html found' }); }
       }
 
       if (req.method !== 'POST' || url.pathname !== '/identify') {

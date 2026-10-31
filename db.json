@@ -1,0 +1,515 @@
+{
+  "version": "2026-10-31",
+  "companies": {
+    "spin-master": {
+      "name": "Spin Master",
+      "verdict": "call",
+      "aliases": [
+        "spinmaster",
+        "spin master",
+        "paw patrol",
+        "pawpatrol",
+        "patrol",
+        "bakugan",
+        "gund",
+        "melissa doug",
+        "melissa & doug",
+        "melissa and doug",
+        "toca boca",
+        "rubiks",
+        "rubik's",
+        "rubiks cube",
+        "kinetic sand",
+        "air hogs",
+        "hatchimals",
+        "ms rachel",
+        "ms. rachel",
+        "mrs rachel",
+        "rachel accurso",
+        "sensory take-along",
+        "take-along"
+      ],
+      "trail": [
+        {
+          "role": "MANUFACTURER",
+          "who": "Spin Master Corp.",
+          "detail": "Canadian company, TSX: TOY. Chief executive since July 2025: Christina Miller; board leadership shared between co-founders including Ronnen Harary (chair per company materials) and Anton Rabie.",
+          "facts": [
+            {
+              "when": "JUN 2025",
+              "text": "Christina Miller appointed CEO, succeeding Max Rangel; announced by the company.",
+              "src": {
+                "t": "PR Newswire / Spin Master",
+                "u": "https://www.prnewswire.com/news-releases/spin-master-announces-leadership-transition-as-christina-miller-is-appointed-ceo-302487824.html"
+              }
+            }
+          ]
+        },
+        {
+          "role": "CO-FOUNDER",
+          "who": "Ronnen Harary",
+          "detail": "Co-founder of Spin Master (1994). His personal charity, the Ronnen Harary Foundation, is the documented link.",
+          "facts": [
+            {
+              "when": "SEP 2024",
+              "text": "The Canadian BDS Coalition documents the foundation funding the Jerusalem Municipality and support for Israeli soldiers, and calls for a boycott of Spin Master over it.",
+              "conf": "strong",
+              "src": {
+                "t": "Canadian BDS Coalition",
+                "u": "https://bdscoalition.ca/2024/09/13/boycott-spin-master-canadian-taxpayers-subsidizing-ronnen-hararys-funding-of-the-jerusalem-municipality-and-the-israeli-military/"
+              }
+            },
+            {
+              "when": "DEC 2024",
+              "text": "The coalition reports Harary's sister charity, 1 R32 Foundation, publicised feeding IDF soldiers ahead of the ground invasion of Gaza in late 2023, and asks Canadian authorities to audit both charities. Harary has also personally delivered supplies to army bases.",
+              "conf": "strong",
+              "src": {
+                "t": "Canadian BDS Coalition",
+                "u": "https://bdscoalition.ca/2024/12/19/dont-fill-your-holiday-stocking-with-apartheid-or-war-crimes-boycott-spinmaster/"
+              }
+            }
+          ]
+        },
+        {
+          "role": "CORPORATE ACTS",
+          "who": "Spin Master as a company",
+          "detail": "No documented corporate operations, investment or statements tying the company itself to Israel or the settlements were found. The documented link is the founder's personal philanthropy, which is why the boycott call targets the company's revenue rather than recorded corporate conduct.",
+          "facts": []
+        }
+      ],
+      "unknowns": [
+        "Whether the Ronnen Harary Foundation continues this funding in 2026: the coalition's documentation dates from 2024.",
+        "Spin Master's charitable giving through its corporate foundation (The Toy Movement) has not been audited for Israel-related grants in the sources found."
+      ]
+    },
+    "ms-rachel": {
+      "name": "Ms. Rachel toys",
+      "verdict": "call",
+      "aliases": [
+        "ms rachel",
+        "ms. rachel",
+        "mrs rachel",
+        "rachel accurso",
+        "rachel accurso",
+        "songs for littles",
+        "sensory take-along"
+      ],
+      "trail": [
+        {
+          "role": "THE PERSON ON THE TOY",
+          "who": "Rachel Accurso (Ms. Rachel)",
+          "detail": "Children's educator with 16M+ subscribers. A leading pro-Palestinian voice in US entertainment.",
+          "pos": "This is one of the rare toys whose face belongs to someone punished, not promoted, for standing with Palestine. Her record is below.",
+          "facts": [
+            {
+              "when": "JUN 2025",
+              "text": "Said she is willing to risk her career to keep advocating for children in Gaza.",
+              "src": {
+                "t": "The Guardian",
+                "u": "https://www.theguardian.com/world/2025/jun/04/ms-rachel-gaza-children"
+              }
+            },
+            {
+              "when": "SEP 2026",
+              "text": "Pledged $1 million to the Palestine Children's Relief Fund, matching Macklemore's donation, and urged other celebrities to speak out against the genocide in Gaza.",
+              "src": {
+                "t": "CBC News",
+                "u": "https://www.cbc.ca/news/entertainment/ms-rachel-macklemore-donation-sheeran-tour-9.7349853"
+              }
+            }
+          ]
+        },
+        {
+          "role": "MANUFACTURER (LICENSEE)",
+          "who": "Spin Master",
+          "detail": "Her toy line is made under licence by Spin Master, whose co-founder's charity funded the Jerusalem Municipality and IDF soldier support, prompting a coalition boycott call.",
+          "facts": [
+            {
+              "when": "SEP 2024",
+              "text": "Canadian BDS Coalition boycott call over Ronnen Harary's foundation.",
+              "conf": "strong",
+              "src": {
+                "t": "Canadian BDS Coalition",
+                "u": "https://bdscoalition.ca/2024/09/13/boycott-spin-master-canadian-taxpayers-subsidizing-ronnen-hararys-funding-of-the-jerusalem-municipality-and-the-israeli-military/"
+              }
+            }
+          ],
+          "pos": "Her royalties fund the brand; the manufacturing money flows to Spin Master. Buying second-hand or alternatives, and donating the difference to PCRF, supports her work without the licensee link."
+        },
+        {
+          "role": "CONTEXT",
+          "who": "The attacks on her",
+          "detail": "Pro-Israel groups have petitioned the Justice Department to investigate her Gaza advocacy, and named her to an 'Antisemite of the Year' list. Her account once liked an antisemitic comment by accident, which she apologised for.",
+          "facts": [
+            {
+              "when": "APR 2025",
+              "text": "StopAntisemitism asked the US Attorney General to investigate her posts on Gaza children as 'propaganda'.",
+              "src": {
+                "t": "The Guardian",
+                "u": "https://www.theguardian.com/us-news/2025/apr/09/stop-antisemitism-ms-rachel-doj-investigation"
+              }
+            }
+          ]
+        }
+      ],
+      "unknowns": [
+        "The exact royalty split between Accurso and Spin Master has not been made public.",
+        "Counterfeit Ms. Rachel toys are widespread, with unknown manufacturing chains entirely."
+      ]
+    },
+    "mattel": {
+      "name": "Mattel",
+      "verdict": "ties",
+      "aliases": [
+        "mattel",
+        "barbie",
+        "fisher price",
+        "fisher-price",
+        "hot wheels",
+        "uno",
+        "american girl",
+        "monster high",
+        "imaginext",
+        "polly pocket",
+        "wwe",
+        "jurassic world",
+        "sesame street",
+        "thomas",
+        "thomas the tank",
+        "fireman sam",
+        "bob the builder"
+      ],
+      "trail": [
+        {
+          "role": "MANUFACTURER",
+          "who": "Mattel, Inc.",
+          "detail": "US company (NASDAQ: MAT). Chairman and CEO: Ynon Kreiz, Israeli-American, who grew up in Israel.",
+          "facts": [
+            {
+              "when": "OCT 2023",
+              "text": "Kreiz spoke of the war as personal, telling Yahoo Finance 'As an Israeli, this is personal'.",
+              "src": {
+                "t": "LinkedIn / Yahoo Finance",
+                "u": "https://www.linkedin.com/posts/briansozzi_mattel-inc-chairman-and-ceo-ynon-kreiz-activity-7123344305540231168-5spt"
+              }
+            },
+            {
+              "when": "OCT 2023",
+              "text": "Kreiz joined 15 entertainment industry leaders in a joint statement denouncing the Hamas attacks, and signed the Creative Community for Peace open letter supporting Israel.",
+              "conf": "strong",
+              "src": {
+                "t": "TheWrap",
+                "u": "https://www.thewrap.com/gary-barber-ynon-kreiz-jeffrey-katzenberg-hamas-israel-joint-statement/"
+              }
+            }
+          ]
+        },
+        {
+          "role": "CORPORATE ACTS",
+          "who": "Mattel as a company",
+          "detail": "The Mattel Children's Foundation directed humanitarian cash and toy donations toward shelters and hospitals in Israel after October 2023. Mattel is not on the BDS movement's official target lists.",
+          "facts": [
+            {
+              "when": "2024",
+              "text": "Company statement describing the foundation's post-October 7 humanitarian focus on Israeli shelters and hospitals.",
+              "conf": "weak",
+              "src": {
+                "t": "Reported statement, circulating via r/MonsterHigh",
+                "u": "https://www.reddit.com/r/MonsterHigh/comments/1bta25r/mattel_supports_israel/"
+              }
+            }
+          ]
+        }
+      ],
+      "unknowns": [
+        "No documented donation by Mattel to Israeli state or military bodies was found; the documented acts are the CEO's signature on advocacy letters and humanitarian giving.",
+        "Sponsorship of the 2024 Israel Film Festival is claimed by boycott-list sites but not confirmed against primary sources."
+      ]
+    },
+    "disney": {
+      "name": "Disney toys",
+      "verdict": "call",
+      "aliases": [
+        "disney",
+        "pixar",
+        "marvel",
+        "avengers",
+        "spiderman",
+        "spider-man",
+        "star wars",
+        "frozen",
+        "elsa",
+        "mickey",
+        "minnie",
+        "toy story",
+        "stitch",
+        "princess",
+        "encanto",
+        "moana",
+        "sabra",
+        "captain america"
+      ],
+      "trail": [
+        {
+          "role": "MANUFACTURER / LICENSOR",
+          "who": "The Walt Disney Company",
+          "detail": "Most 'Disney' toys are made by licensees (Mattel holds several, plus Jakks Pacific), but the brand, characters and royalties belong to Disney.",
+          "facts": [
+            {
+              "when": "OCT 2023",
+              "text": "Donated $2 million to humanitarian relief in Israel, including Magen David Adom, with Bob Iger's statement framing it around the attacks on Israel.",
+              "conf": "strong",
+              "src": {
+                "t": "Variety",
+                "u": "https://variety.com/2023/film/news/disney-2-million-dollar-donation-israel-hamas-war-1235754737/"
+              }
+            }
+          ]
+        },
+        {
+          "role": "BOYCOTT RECORD",
+          "who": "BDS movement",
+          "detail": "Disney+ has been a BDS consumer boycott target, and the movement publicly renewed its Disney boycott over the inclusion of Sabra, a pro-Israel comic character, in Captain America: Brave New World.",
+          "facts": [
+            {
+              "when": "2025-2026",
+              "text": "BDS reiterated its Disney boycott after Marvel revived the Sabra character.",
+              "conf": "strong",
+              "src": {
+                "t": "Images (Dawn)",
+                "u": "https://images.dawn.com/news/1196088/the-bds-movement-wants-to-remind-you-its-still-boycotting-marvel-and-disney-for-palestine"
+              }
+            }
+          ]
+        }
+      ],
+      "unknowns": [
+        "How much of a licensed Disney toy's price reaches Disney as royalty is not published.",
+        "Licensee conduct varies: a Disney toy made by Mattel carries both companies' records."
+      ]
+    },
+    "hasbro": {
+      "name": "Hasbro",
+      "verdict": "none",
+      "aliases": [
+        "hasbro",
+        "transformers",
+        "peppa pig",
+        "my little pony",
+        "play doh",
+        "play-doh",
+        "monopoly",
+        "nerf",
+        "gi joe",
+        "g.i. joe",
+        "baby alive",
+        "furby",
+        "bing",
+        "pteranodon",
+        "candy land",
+        "risk"
+      ],
+      "trail": [
+        {
+          "role": "MANUFACTURER",
+          "who": "Hasbro, Inc.",
+          "detail": "US company (NASDAQ: HAS).",
+          "facts": [
+            {
+              "when": "OCT 2023",
+              "text": "The Toy Foundation, the toy industry's collective charity, mobilised donations amid the Israel-Hamas war; industry-wide rather than a Hasbro corporate act.",
+              "conf": "weak",
+              "src": {
+                "t": "Toy industry reporting via boycott lists",
+                "u": "https://www.tumblr.com/tooningin/769683966047453184/what-are-some-good-alternative-toy-brands"
+              }
+            }
+          ]
+        },
+        {
+          "role": "RESEARCH RESULT",
+          "who": "What we found",
+          "detail": "No documented donation, statement or operation tying Hasbro as a company to Israel or the occupation was found in the sources checked. Consumer boycott threads exist on social media, but none anchor to a primary source. Absence of evidence is not innocence.",
+          "facts": []
+        }
+      ],
+      "unknowns": [
+        "Executive philanthropy of Hasbro leadership has not been examined in the sources found.",
+        "Hasbro's licensing web (Disney, Marvel) means some Hasbro products carry Disney's documented ties."
+      ]
+    },
+    "lego": {
+      "name": "LEGO",
+      "verdict": "none",
+      "aliases": [
+        "lego",
+        "duplo",
+        "lego star wars",
+        "lego city",
+        "lego friends",
+        "ninjago",
+        "lego technic",
+        "lego harry potter",
+        "bricks"
+      ],
+      "trail": [
+        {
+          "role": "MANUFACTURER",
+          "who": "The LEGO Group",
+          "detail": "Danish, family-owned (Kirkbi).",
+          "facts": [
+            {
+              "when": "2022",
+              "text": "LEGO's documented Israel activity is commercial: retail stores opening in Israeli cities. No corporate donation, statement or military tie was found, and LEGO is not on the BDS movement's target lists.",
+              "conf": "strong",
+              "src": {
+                "t": "Lev Haolam retail reporting",
+                "u": "https://www.levhaolam.com/support-israel/retail-stores/does-lego-support-israel/"
+              }
+            }
+          ]
+        },
+        {
+          "role": "RESEARCH RESULT",
+          "who": "What we found",
+          "detail": "Nothing documented. Watch the licence web: LEGO Star Wars and LEGO Marvel pay royalties to Disney, which carries documented ties. Absence of evidence is not innocence.",
+          "facts": []
+        }
+      ],
+      "unknowns": [
+        "Whether LEGO's mall and retail partners in Israel include settlement locations was not verifiable in the sources found."
+      ]
+    },
+    "mga": {
+      "name": "MGA Entertainment",
+      "verdict": "weak",
+      "aliases": [
+        "mga",
+        "mga entertainment",
+        "bratz",
+        "lol surprise",
+        "lol dolls",
+        "l.o.l.",
+        "little tikes",
+        "rainbow high",
+        "miniverse"
+      ],
+      "trail": [
+        {
+          "role": "FOUNDER / CEO",
+          "who": "Isaac Larian",
+          "detail": "Iranian-born American founder and CEO of MGA, the largest privately held toy company.",
+          "facts": [
+            {
+              "when": "2024-2026",
+              "text": "Profiled by Reverse Canary Mission as publicly supporting Zionist figures and narratives on his personal LinkedIn. This source is a single activist-run database and its characterisations could not be independently confirmed; treated as weak.",
+              "conf": "weak",
+              "src": {
+                "t": "Reverse Canary Mission",
+                "u": "https://www.reversecanarymission.org/person/isaac-larian"
+              }
+            }
+          ]
+        },
+        {
+          "role": "RESEARCH RESULT",
+          "who": "What we found",
+          "detail": "No documented corporate donation or operation tying MGA to Israel was found. The only signal is the founder's personal social-media activity, which is thin ground for a boycott call.",
+          "facts": []
+        }
+      ],
+      "unknowns": [
+        "Larian's charitable giving has not been documented in the sources found.",
+        "Note: Larian has an independently documented record of public attacks on a Black artist and on Black Lives Matter (Bloomberg, 2020), which may matter to buyers weighing the company overall."
+      ]
+    },
+    "dr-zigs": {
+      "name": "Dr Zigs",
+      "verdict": "none",
+      "aliases": [
+        "dr zigs",
+        "dr.zigs",
+        "drzigs",
+        "zigs",
+        "dr zigs bubbles",
+        "dr zigs extraodrinary",
+        "giant bubbles",
+        "bubble mix",
+        "pollinating bubbles",
+        "make pollinating bubbles",
+        "bubbles not bombs",
+        "paola dyboski",
+        "paola dyboski-bryant",
+        "bubble toys"
+      ],
+      "trail": [
+        {
+          "role": "MANUFACTURER",
+          "who": "Dr Zigs Ltd (Companies House 09083207)",
+          "detail": "Small independent Welsh company founded in 2011 by Paola Dyboski-Bryant. Giant bubble toys and mixes are made by hand at its Bubble HQ in North Wales; the founder owns the company, with no parent company behind it.",
+          "pos": "This is the opposite case to most entries here: a toy company with a documented, public record of standing with Palestine.",
+          "facts": [
+            {
+              "when": "NOV 2022",
+              "text": "Company background: started at home in Tregarth in 2011, grown to around 11 employees, still manufacturing in North Wales.",
+              "src": {
+                "t": "North Wales Live",
+                "u": "https://www.dailypost.co.uk/news/north-wales-news/bubble-maker-dr-zigs-being-25433160"
+              }
+            },
+            {
+              "when": "2026",
+              "text": "Companies House record: Dr Zigs Ltd, company number 09083207, registered at Vaynol Estate, Bangor, Gwynedd, with Paola Dyboski-Bryant as director.",
+              "src": {
+                "t": "Companies House (GOV.UK)",
+                "u": "https://find-and-update.company-information.service.gov.uk/company/09083207/officers"
+              }
+            }
+          ]
+        },
+        {
+          "role": "STATED POSITION",
+          "who": "Dr Zigs as a company",
+          "detail": "The company's position is stated on its own shopfront, in its own words, not inferred from anyone else.",
+          "facts": [
+            {
+              "when": "2026",
+              "text": "The Dr Zigs website states the company is 'proudly pro-Palestine' and stands for Palestinian freedom, dignity and children's rights, including every child's freedom to play.",
+              "src": {
+                "t": "drzigs.com",
+                "u": "https://drzigs.com/"
+              }
+            }
+          ]
+        },
+        {
+          "role": "SOLIDARITY IN PRACTICE",
+          "who": "Bubbles Not Bombs",
+          "detail": "A project run through Dr Zigs for 15 years, which became an independent nonprofit in 2026, bringing play to children in war zones and displacement camps.",
+          "facts": [
+            {
+              "when": "MAY 2026",
+              "text": "Bubble kits from the project were aboard the Global Sumud Flotilla, the aid mission attacked by Israeli forces as it tried to break the blockade of Gaza, and kits have since reached children in Gaza displacement camps.",
+              "src": {
+                "t": "Middle East Eye",
+                "u": "https://www.middleeasteye.net/news/gaza-palestine-moments-of-childhood-bubbles-not-bombs"
+              }
+            },
+            {
+              "when": "JUN 2026",
+              "text": "The project distributes kits in Gaza and Lebanon and has begun reaching children in Myanmar and Cox's Bazaar, with Sudan, Congo and Tigray planned.",
+              "src": {
+                "t": "Middle East Eye",
+                "u": "https://www.middleeasteye.net/news/gaza-palestine-moments-of-childhood-bubbles-not-bombs"
+              }
+            }
+          ]
+        }
+      ],
+      "unknowns": [
+        "No boycott call exists and none is called for: everything documented points the other way.",
+        "Dr Zigs registered a French arm in 2021 to keep EU trade working after Brexit; manufacturing stayed in North Wales, and no Israel-facing operations were found in the sources checked."
+      ]
+    }
+  }
+}

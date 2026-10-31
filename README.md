@@ -29,6 +29,17 @@ scan requests must send it in an `X-Scan-Token` header.
    The setup page closes itself after the key is saved (first save wins).
 3. `GET /health` returns `{"ok":true,"configured":true}` when ready.
 
+## What else this server serves
+
+- `GET /db` — the researched database as JSON (`db.json` in this repo). Every copy
+  of the Toy Trace page pulls this at load and merges it over its built-in
+  entries, so new research reaches the app without reinstalling anything.
+- `GET /app` (and `/`) — a copy of the Toy Trace page itself (`app.html`),
+  handy if the static site is unreachable.
+
+Updating the database: add or change an entry in `db.json`, commit, push,
+redeploy. Entries are dated and sourced; the page renders whatever it gets.
+
 ## Point the app at it
 
 The hosted copy of the Toy Trace page ships with this endpoint baked in.
