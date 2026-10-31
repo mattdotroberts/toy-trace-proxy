@@ -467,6 +467,8 @@ function showPhoto(data){
   const img = $('photoPreview');
   img.src = data; img.style.display = 'block';
   $('aiScanBtn').style.display = 'inline-block';
+  // The moment a photo exists, run the AI scan: no extra tap needed.
+  scanPhoto();
   $('identifyStep').style.display = 'block';
   $('identifyStep').scrollIntoView({behavior:'smooth'});
 }
@@ -589,7 +591,7 @@ $('saveEndpointBtn').addEventListener('click', async () => {
     $('endpointStatus').textContent = v ? 'Saved: scanning enabled.' : 'Cleared: scanning disabled, manual identify only.';
   } catch(e){ $('endpointStatus').textContent = 'Could not save here; you would need to re-enter it after reloading.'; }
 });
-$('aiScanBtn').addEventListener('click', async () => {
+async function scanPhoto(){
   if (!photoData){ $('aiStatus').textContent = 'Take or upload a photo first.'; return; }
   const ep = await getEndpoint();
   if (!ep){
@@ -622,6 +624,8 @@ $('aiScanBtn').addEventListener('click', async () => {
       go.textContent = 'Open dossier: ' + DB.companies[matchedId].name;
       go.addEventListener('click', () => lookup(DB.companies[matchedId].name));
       box.appendChild(go);
+      // Instant analysis: open the matched dossier without waiting for a tap.
+      lookup(DB.companies[matchedId].name);
     }
     names.slice(0, 4).forEach(n => {
       const s = document.createElement('button');
@@ -639,7 +643,8 @@ $('aiScanBtn').addEventListener('click', async () => {
   } finally {
     $('aiScanBtn').disabled = false;
   }
-});
+}
+$('aiScanBtn').addEventListener('click', () => scanPhoto());
 
 /* ================= RECENTS (window.storage) ================= */
 async function saveRecent(name){
